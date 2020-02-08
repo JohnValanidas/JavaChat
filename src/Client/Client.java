@@ -1,13 +1,18 @@
 package Client;// Java implementation for multithreaded chat client
 // Save file as Client.java
 
+import Message.Message;
+import Message.MessageType;
+
 import java.io.*;
+import java.lang.reflect.Method;
 import java.net.*;
 import java.util.Properties;
 import java.util.Scanner;
 
 public class Client {
-    final static int ServerPort = 12345;
+    // TODO: Assign this in config
+    final static int ServerPort = 5555;
 
     public static void main(String args[]) throws UnknownHostException, IOException
     {
@@ -20,8 +25,8 @@ public class Client {
         Scanner scn = new Scanner(System.in);
         Boolean connected = false;
         Socket s = null;
-        // User stuff
 
+        // User stuff
         System.out.print("Please Enter a username: ");
         final String userName = scn.nextLine();
         System.out.println("Welcome " + userName + "!");
@@ -29,16 +34,16 @@ public class Client {
         // getting localhost ip 
         // InetAddress ip = InetAddress.getByName("localhost");
 
-        System.out.println("Connecting to [" + ip + "]");
+        System.out.println("Connecting to [" + ip + ":"+ ServerPort +"]");
         // establish the connection
 
         while(!connected) {
             try {
-                s = new Socket(ip, ServerPort);
+                s = new Socket("localhost", ServerPort);
                 connected = true;
             }
             catch (ConnectException e) {
-                System.out.println("Connection Timed out... \nTrying again...");
+                e.printStackTrace();
             }
             catch (Exception e) {
                 System.out.println("Connection Failed... Stopping Program");
@@ -46,11 +51,16 @@ public class Client {
             }
         }
 
-        // obtaining input and out streams 
-        DataInputStream dis = new DataInputStream(s.getInputStream());
-        DataOutputStream dos = new DataOutputStream(s.getOutputStream());
+        System.out.println("Connected");
 
-        dos.writeUTF("/SETUSER " + userName);
+        // obtaining input and out streams
+        ObjectOutputStream outputStream = new ObjectOutputStream(s.getOutputStream());
+        ObjectInputStream inputStream = new ObjectInputStream(s.getInputStream());
+
+        // Send auth packet right away
+        Message authMessage = new Message(MessageType.AUTHENTICATION, userName);
+        outputStream.writeObject(authMessage);
+        System.out.println("Auth packet Sent");
 
         // sendMessage thread 
         Thread sendMessage = new Thread(new Runnable()
@@ -59,13 +69,13 @@ public class Client {
             public void run() {
                 while (true) {
 
-                    // read the message to deliver. 
-                    String msg = scn.nextLine();
-                    msg = userName + "#" + msg;
+                    // read the message to deliver.
+                    String msgData = scn.nextLine();
 
                     try {
+                        Message message = new Message(MessageType.MESSAGE, msgData);
                         // write on the output stream 
-                        dos.writeUTF(msg);
+                        outputStream.writeObject(message);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -82,10 +92,14 @@ public class Client {
                 while (true) {
                     try {
                         // read the message sent to this client 
-                        String msg = dis.readUTF();
-                        System.out.println(msg);
+                        Message message = (Message) inputStream.readObject();
+                        if (message.getType() == MessageType.MESSAGE) {
+                            System.out.println(message.getData());
+                        }
                     } catch (IOException e) {
 
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
                 }
