@@ -1,26 +1,25 @@
 package Client;// Java implementation for multithreaded chat client
 // Save file as Client.java
 
-import Message.Message;
-import Message.MessageType;
+import Communication.Message;
+import Communication.MessageType;
 
 import java.io.*;
-import java.lang.reflect.Method;
 import java.net.*;
 import java.util.Properties;
 import java.util.Scanner;
 
 public class Client {
     // TODO: Assign this in config
-    final static int ServerPort = 5555;
 
-    public static void main(String args[]) throws UnknownHostException, IOException
+    public static void main(String[] args) throws UnknownHostException, IOException
     {
         // Quick way of storing IP ~ Make sure sensitive data doesn't get uploaded to the repo
         Properties properties = new Properties();
         FileInputStream fileInputStream= new FileInputStream("config.properties");
         properties.load(fileInputStream);
         String ip = properties.getProperty("ip");
+        int serverPort = Integer.parseInt(properties.getProperty("port"));
 
         Scanner scn = new Scanner(System.in);
         Boolean connected = false;
@@ -34,12 +33,12 @@ public class Client {
         // getting localhost ip 
         // InetAddress ip = InetAddress.getByName("localhost");
 
-        System.out.println("Connecting to [" + ip + ":"+ ServerPort +"]");
+        System.out.println("Connecting to [" + ip + ":"+ serverPort +"]");
         // establish the connection
 
         while(!connected) {
             try {
-                s = new Socket("localhost", ServerPort);
+                s = new Socket("localhost", serverPort);
                 connected = true;
             }
             catch (ConnectException e) {

@@ -1,4 +1,4 @@
-package Message;
+package Communication;
 
 public enum MessageType {
     AUTHENTICATION,

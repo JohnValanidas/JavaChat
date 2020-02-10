@@ -1,13 +1,12 @@
 package Server;
 
-import Message.Message;
-import Message.MessageType;
+import Communication.Message;
+import Communication.MessageType;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 public class ClientHandler implements Runnable {
 
