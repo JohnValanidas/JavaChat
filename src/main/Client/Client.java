@@ -1,8 +1,10 @@
-package Client;// Java implementation for multithreaded chat client
-// Save file as Client.java
+package main.Client;// Java implementation for multithreaded chat client
+// Save file as main.Client.java
 
-import Communication.Message;
-import Communication.MessageType;
+import main.Communication.Message.AuthenticationMessage;
+import main.Communication.Message.DirectMessage;
+import main.Communication.Message.Message;
+import main.Communication.Message.MessageType;
 
 import java.io.*;
 import java.net.*;
@@ -25,7 +27,7 @@ public class Client {
         Boolean connected = false;
         Socket s = null;
 
-        // User stuff
+        // main.User stuff
         System.out.print("Please Enter a username: ");
         final String userName = scn.nextLine();
         System.out.println("Welcome " + userName + "!");
@@ -57,7 +59,7 @@ public class Client {
         ObjectInputStream inputStream = new ObjectInputStream(s.getInputStream());
 
         // Send auth packet right away
-        Message authMessage = new Message(MessageType.AUTHENTICATION, userName);
+        Message authMessage = new AuthenticationMessage(userName, 23423523);
         outputStream.writeObject(authMessage);
         System.out.println("Auth packet Sent");
 
@@ -72,7 +74,7 @@ public class Client {
                     String msgData = scn.nextLine();
 
                     try {
-                        Message message = new Message(MessageType.MESSAGE, msgData);
+                        Message message = new DirectMessage(MessageType.DIRECT);
                         // write on the output stream 
                         outputStream.writeObject(message);
                     } catch (IOException e) {
@@ -89,18 +91,18 @@ public class Client {
             public void run() {
 
                 while (true) {
-                    try {
-                        // read the message sent to this client 
-                        Message message = (Message) inputStream.readObject();
-                        if (message.getType() == MessageType.MESSAGE) {
-                            System.out.println(message.getData());
-                        }
-                    } catch (IOException e) {
-
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        // read the message sent to this client
+//                        Message message = (Message) inputStream.readObject();
+//                        if (message.getType() == MessageType.MESSAGE) {
+//                            System.out.println(message.getData());
+//                        }
+//                    } catch (IOException e) {
+//
+//                        e.printStackTrace();
+//                    } catch (ClassNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             }
         });

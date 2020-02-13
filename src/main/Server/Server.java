@@ -1,4 +1,4 @@
-package Server;
+package main.Server;
 
 
 
@@ -15,7 +15,7 @@ public class Server {
 
     public static void main(String[] args) throws IOException {
         // server is listening on port 1234
-        int port = 5555;
+        int port = 8989;
         ServerSocket serverSocket = new ServerSocket(port);
 
         Socket socket;
@@ -32,7 +32,7 @@ public class Server {
             System.out.println("Creating a new handler for this client...");
 
             // Create a new handler object for handling this request.
-            ClientHandler mtch = new ClientHandler(socket, "Client " + i, inputStream, outputStream);
+            ClientHandler mtch = new ClientHandler(socket, "main/Client " + i, inputStream, outputStream);
 
             // create a thread with the clienthandler runnable
             Thread thread = new Thread(mtch);
