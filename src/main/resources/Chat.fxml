@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="600.0" prefWidth="40.0" style="-fx-background-color: #19181C;" />
+      <VBox prefHeight="600.0" prefWidth="150.0" style="-fx-border-color: rgba(12,112,112, .23);">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="148.0" style="-fx-border-color: rgba(12,112,112, .23); -fx-border-width: 0 0 1 0;" text="Chat Rooms" textAlignment="CENTER" />
+            <HBox prefHeight="100.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+      <VBox maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="610.0">
+         <children>
+            <VBox prefHeight="560.0" prefWidth="100.0" />
+            <HBox prefHeight="40.0" prefWidth="200.0" style="-fx-border-color: rgba(12,112,112, .23); -fx-border-width: 1 0 0 0;">
+               <children>
+                  <TextField focusTraversable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="500.0" promptText="Type...">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="30.0" prefWidth="75.0" style="-fx-background-radius: 30px;" text="Send">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="15.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</HBox>

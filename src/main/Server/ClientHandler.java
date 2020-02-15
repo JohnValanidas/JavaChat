@@ -76,48 +76,22 @@ public class ClientHandler implements Runnable {
         while(running) {
             try {
                 message = (Message) this.inputStream.readObject();
-                //System.out.println(message);
-
                 this.handleMessage(message);
-//
-//                if(message.getType() == LOGOUT){
-//                    this.loggedIn = false;
-//                    this.socket.close();
-//                    break;
-//                }
-//
-//                if(message.getType() == AUTHENTICATION) {
-//                    // TODO: Not real authentication
-//                    this.name = message.getData();
-//                    System.out.println("USER NAME SET TO " + this.name);
-//                }
-//
-//                if(message.getType() == MESSAGE) {
-//                    System.out.println("Message Received");
-//                    for (ClientHandler client : Server.activeClients) {
-//                        if (!client.equals(this) && client.loggedIn) {
-//                            message.setMessageData(this.name + ":" + message.getData());
-//                            client.outputStream.writeObject(message);
-//                            break;
-//                        }
-//                    }
-//                }
             }
             catch (SocketException e) {
                 System.out.println("Connection Reset by " + this.name);
                 running = false;
             }
-            catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
-//        try {
-//            // this.inputStream.close();
-//            // this.outputStream.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            this.inputStream.close();
+            this.outputStream.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+       }
     }
 }
